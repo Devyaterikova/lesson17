@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        td, th {
+            border: 1px solid black;
+            padding: 5px 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<h2>Добро пожаловать, {{currentUser}}! Ваши задачи на сегодня:</h2>
+<p><a href="?/task/add/">Добавить задачу</a></p>
+<table>
+    <tr>
+        <th>Описание задачи</th>
+        <th>Дата добавления</th>
+        <th>Статус</th>
+        <th>Действия</th>
+        <th>Ответственный</th>
+        <th>Автор</th>
+    </tr>
+    {% for task in params.tasks %}
+        {% if currentUser == task.author_name %}
+    <tr>
+        <td> {{ task.description }}</td>
+        <td> {{ task.date_added }} </td>
+        <td>
+            {% if task.is_done == true %}
+                <span style="color: darkgreen">Выполнено</span>
+            {% elseif task.is_done == false %}
+                <span style="color: darkorange">В процессе</span>
+            {% endif %}
+        </td>
+        <td>
+            <a href="?/task/update/id/{{task.task_id}}">Редактировать</a>
+            <a href="?/task/delete/id/{{task.task_id}}">Удалить</a>
+        </td>
+        <td>{{task.assigned_user_name}} </td>
+        <td>{{task.author_name}}</td>
+    </tr>
+        {% endif %}
+    {% endfor %}
+</table>
+
+<h2>А вот что требуют от вас другие:</h2>
+<table>
+    <tr>
+        <th>Описание задачи</th>
+        <th>Дата добавления</th>
+        <th>Статус</th>
+        <th>Действия</th>
+        <th>Ответственный</th>
+        <th>Автор</th>
+    </tr>
+    {% for task in params.tasks %}
+        {% if currentUser != task.author_name and currentUser == task.assigned_user_name %}
+
+            <tr>
+            <td> {{ task.description }} </td>
+            <td> {{ task.date_added }} </td>
+            <td> {% if task.is_done == true %}
+                <span style="color: darkgreen">Выполнено</span>
+                {% elseif task.is_done == false %}
+                <span style="color: darkorange">В процессе</span>
+                {% endif %}
+            </td>
+        <td>
+            <a href="?/task/update/id/{{task.task_id}}">Редактировать</a>
+            <a href="?/task/delete/id/{{task.task_id}}">Удалить</a>
+        </td>
+        <td>{{task.assigned_user_name}} </td>
+        <td>{{task.author_name}}</td>
+        </tr>
+         {%endif%}
+    {%endfor%}
+
+</table>
+
+<a href="?/user/logout">Выход</a>
+
+</body>
+</html>

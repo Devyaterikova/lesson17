@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+<a href="/">Список</a>
+<h1>Изменение задачи</h1>
+<form action="?/task/update/id/{{params.task.id}}" method="post">
+    <p>Описание: <input type="text" name="description" value="{{params.task.description}}"></p>
+    <p>Готовность: <select name="is_done">
+                        <option value="true">Готово</option>
+                        <option value="false">В процессе</option>
+        </select>
+    </p>
+    <p>Ответственный: <select name="assign_to">
+                            {% for user in params.users %}
+                                    <option value="{{user[0]}}">{{user[1]}}</option>
+                            {% endfor %}
+                      </select>
+    </p>
+    <p><input type="submit" value="Сохранить"></p>
+</form>
+</body>
+</html>

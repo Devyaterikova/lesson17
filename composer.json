@@ -1,0 +1,7 @@
+{
+    "name": "devyaterikova",
+    "type": "project",
+    "require": {
+        "twig/twig": "^2.4"
+    }
+}
